@@ -102,4 +102,8 @@ class EDAAnalyzer:
         print(f"Missing values after cleaning:\n{self.df.isnull().sum()}")
 
 
+    def dtype_converter(self):
+        self.data['purchase_time'] = pd.to_datetime(self.data['purchase_time'])
+        self.data['signup_time'] = pd.to_datetime(self.data['signup_time'])
+
     
