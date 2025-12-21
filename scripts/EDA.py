@@ -67,23 +67,31 @@ class EDAAnalyzer:
 
     def visualize_relationship(self, x_col, y_col):
         """
-        Visualize the relationship between two columns using a scatter plot.
+        Visualize the relationship using Bar and Box plots.
         Args:
-            x_col (str): Column for the x-axis.
-            y_col (str): Column for the y-axis.
+            x_col (str): Categorical column (e.g., 'is_fraud')
+            y_col (str): Numerical column (e.g., 'amount')
         """
         if x_col in self.data.columns and y_col in self.data.columns:
-            plt.figure(figsize=(10, 6))
-            sns.scatterplot(x=self.data[x_col], y=self.data[y_col], alpha=0.7, color='purple')
-            plt.title(f"{x_col} vs. {y_col}")
-            plt.xlabel(x_col)
-            plt.ylabel(y_col)
-            plt.grid(True, linestyle='--', alpha=0.7)
-            plt.show()
-            plt.savefig(f"images/{x_col}_vs_{y_col}.png")
-        else:
-            print("One or more columns not found in the dataset.")
+            # Set up a figure with two side-by-side plots
+            fig, axes = plt.subplots(1, 2, figsize=(16, 6))
 
+            # 1. Bar Plot (Shows the average/mean)
+            sns.barplot(ax=axes[0], x=self.data[x_col], y=self.data[y_col], palette='magma')
+            axes[0].set_title(f"Average {y_col} by {x_col}")
+
+            # 2. Box Plot (Shows outliers and distribution)
+            sns.boxplot(ax=axes[1], x=self.data[x_col], y=self.data[y_col], palette='viridis')
+            axes[1].set_title(f"Distribution & Outliers of {y_col} by {x_col}")
+
+            # Aesthetics
+            plt.tight_layout()
+            
+            # SAVE the plot BEFORE calling plt.show()
+            plt.savefig(f"images/{x_col}_vs_{y_col}_analysis.png")
+            plt.show()
+        else:
+            print(f"Error: Either {x_col} or {y_col} was not found in the data.")
 
     def handle_missing_values(self):
         """
@@ -105,5 +113,6 @@ class EDAAnalyzer:
     def dtype_converter(self):
         self.data['purchase_time'] = pd.to_datetime(self.data['purchase_time'])
         self.data['signup_time'] = pd.to_datetime(self.data['signup_time'])
+        print("Converted the datatype of the specified columns successfully")
 
     
