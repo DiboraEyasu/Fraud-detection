@@ -1,25 +1,59 @@
-# virtual environments
-.venv
+# =========================
+# Data (NEVER COMMIT DATA)
+# =========================
+data/
+*.csv
+*.parquet
+*.xlsx
+
+# =========================
+# Models & artifacts
+# =========================
+models/
+checkpoints/
+*.joblib
+*.pkl
+
+# =========================
+# Python
+# =========================
+pycache/
+*.py[cod]
+*.egg-info/
+.eggs/
+
+# =========================
+# Virtual environments
+# =========================
 .venv/
-.env
 venv/
 env/
 
-# idea
-.vscode/
-.idea/
-
-# data
-*.csv
-*.png
-data/
-raw/
-processed/
-geo_data/
-images/
-
-# jupyter notebooks
+# =========================
+# Jupyter
+# =========================
 .ipynb_checkpoints/
 
-# Python
-__pycache__/
+# =========================
+# Logs
+# =========================
+logs/
+*.log
+
+# =========================
+# Environment variables
+# =========================
+.env
+*.env
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# IDEs
+# =========================
+.vscode/
+.idea/
