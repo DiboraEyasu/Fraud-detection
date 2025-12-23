@@ -73,20 +73,10 @@ class EDAAnalyzer:
             y_col (str): Numerical column (e.g., 'amount')
         """
         if x_col in self.data.columns and y_col in self.data.columns:
-            # Set up a figure with two side-by-side plots
-            fig, axes = plt.subplots(1, 2, figsize=(16, 6))
-
-            # 1. Bar Plot (Shows the average/mean)
-            sns.barplot(ax=axes[0], x=self.data[x_col], y=self.data[y_col], palette='magma')
-            axes[0].set_title(f"Average {y_col} by {x_col}")
-
-            # 2. Box Plot (Shows outliers and distribution)
-            sns.boxplot(ax=axes[1], x=self.data[x_col], y=self.data[y_col], palette='viridis')
-            axes[1].set_title(f"Distribution & Outliers of {y_col} by {x_col}")
-
-            # Aesthetics
-            plt.tight_layout()
-            
+            # Set up a figure
+            plt.figure(figsize=(8,6))
+            sns.boxplot(x=self.data[x_col], y=self.data[y_col], palette='magma')
+            plt.title(f"{x_col} Vs {y_col}")
             # SAVE the plot BEFORE calling plt.show()
             plt.savefig(f"images/{x_col}_vs_{y_col}_analysis.png")
             plt.show()
@@ -102,12 +92,22 @@ class EDAAnalyzer:
         
         # Fill missing values with appropriate methods
         for column in self.df.columns:
-            if self.df[column].dtype == 'object':
-                self.df[column] = self.df[column].fillna('Unknown')
-            elif self.df[column].dtype == 'float64' or self.df[column].dtype == 'int64':
-                self.df[column] = self.df[column].fillna(self.df[column].median())
+            if self.data[column].dtype == 'object':
+                self.data[column] = self.data[column].fillna('Unknown')
+            elif self.data[column].dtype == 'float64' or self.data[column].dtype == 'int64':
+                self.data[column] = self.data[column].fillna(self.data[column].median())
         
         print(f"Missing values after cleaning:\n{self.df.isnull().sum()}")
+
+
+    def handle_duplictaes(self):
+        """
+        Handle duplicated values in the dataset.
+        """
+         # Check for missing values
+        print(f"Missing values before cleaning:\n{self.data.isnull().sum()} from {self.data.shape}")
+        self.data = self.data.drop_duplicates()
+        print(f"Columns Remaining after removing duplicated values are: {self.data.head}")
 
 
     def dtype_converter(self):
