@@ -6,7 +6,7 @@ class FeatureEngineering:
 
 
     def add_time_features(self):
-        self.df["time_since_signup"] = (self.df["signup_time"] - self.df["purchase_time"]).dt.total_seconds()
+        self.df["time_since_signup"] = (self.df["purchase_time"] - self.df["signup_time"]).dt.total_seconds()
         self.df["hour_of_day"] = self.df["purchase_time"].dt.hour
         self.df["day_of_week"] = self.df["purchase_time"].dt.dayofweek
         return self.df

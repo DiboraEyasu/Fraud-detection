@@ -104,15 +104,23 @@ class EDAAnalyzer:
         """
         Handle duplicated values in the dataset.
         """
-         # Check for missing values
-        print(f"Missing values before cleaning:\n{self.data.isnull().sum()} from {self.data.shape}")
+         # Check for duplicated values
+        print(f"Duplicated values before cleaning:\n{self.data.duplicated().sum()} from {self.data.shape}")
         self.data = self.data.drop_duplicates()
         print(f"Columns Remaining after removing duplicated values are: {self.data.head}")
 
 
     def dtype_converter(self):
-        self.data['purchase_time'] = pd.to_datetime(self.data['purchase_time'])
-        self.data['signup_time'] = pd.to_datetime(self.data['signup_time'])
-        print("Converted the datatype of the specified columns successfully")
+        self.data = self.data.copy()
+        if "signup_time" in self.data.columns:
+            print(f"Converted the datatype of the key columns successfully")
+
+            self.data["signup_time"] = pd.to_datetime(self.data["signup_time"])
+        if "purchase_time" in self.data.columns:
+            self.data["purchase_time"] = pd.to_datetime(self.data["purchase_time"])
+        if "ip_address" in self.data.columns:
+            self.data["ip_address"] = self.data["ip_address"].astype(int)
+        print(f"Converted the datatype of the key columns successfully")
+        return
 
     
